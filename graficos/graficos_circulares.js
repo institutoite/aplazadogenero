@@ -1,14 +1,14 @@
 // Datos por departamento (solo para gráficos circulares)
 const datosCircular = [
-    { dep: "Tarija", mujeres: 1587, hombres: 2942, interp: "Tarija: ¿Quién se esfuerza más?" },
-    { dep: "Potosí", mujeres: 2788, hombres: 4726, interp: "Potosí: ¿Quién tiene la culpa?" },
-    { dep: "Beni", mujeres: 2920, hombres: 5121, interp: "Beni: ¿Ellas o ellos?" },
-    { dep: "Oruro", mujeres: 1449, hombres: 2543, interp: "Oruro: ¿Quién se defiende mejor?" },
-    { dep: "Pando", mujeres: 826, hombres: 1401, interp: "Pando: ¿Quién gana el debate?" },
-    { dep: "Chuquisaca", mujeres: 2134, hombres: 3860, interp: "Chuquisaca: ¿Quién tiene razón?" },
-    { dep: "La Paz", mujeres: 3382, hombres: 7507, interp: "La Paz: ¿Quién se aplaza más?" },
-    { dep: "Cochabamba", mujeres: 6175, hombres: 12636, interp: "Cochabamba: ¿Quién lo justifica mejor?" },
-    { dep: "Santa Cruz", mujeres: 16275, hombres: 28217, interp: "Santa Cruz: ¿Quién se defiende mejor?" }
+    { dep: "Santa Cruz", mujeres: 16275, hombres: 28217, interp: "¿Por qué más hombres reprueban que mujeres?" },
+    { dep: "La Paz", mujeres: 3382, hombres: 7507, interp: "¿Qué provoca que ellas superen en notas a ellos?" },
+    { dep: "Cochabamba", mujeres: 6175, hombres: 12636, interp: "¿Por qué aquí los hombres reprueban más?" },
+    { dep: "Oruro", mujeres: 1449, hombres: 2543, interp: "¿Por qué las mujeres rinden mejor?" },
+    { dep: "Potosí", mujeres: 2788, hombres: 4726, interp: "¿Qué hace que ellos tengan más bajas?" },
+    { dep: "Chuquisaca", mujeres: 2134, hombres: 3860, interp: "¿Por qué ellas destacan más?" },
+    { dep: "Tarija", mujeres: 1587, hombres: 2942, interp: "¿Qué influye en que los hombres reprueben más?" },
+    { dep: "Beni", mujeres: 2920, hombres: 5121, interp: "¿Por qué las mujeres llevan la delantera?" },
+    { dep: "Pando", mujeres: 826, hombres: 1401, interp: "¿Qué pasa para que ellos tengan más reprobados?" }
 ];
 
 const colores = ["rgb(38,186,165)", "rgb(55,95,122)"];
@@ -79,23 +79,28 @@ datosCircular.forEach((d, i) => {
         interpH1.style.letterSpacing = '1px';
 
         card.appendChild(interpH1);
-        card.innerHTML += `
-            <div class="card-body" style="width:100%;display:flex;justify-content:center;align-items:center;">
-                <div class="grafica-circular-wrap">
-                    <canvas id="circular${i}" style="width:95vw;max-width:700px;height:95vw;max-height:700px;" width="700" height="700"></canvas>
-                    <!-- Hombre: centro-izquierda -->
-                    <div class="icono-porc-circular" style="top:50%;left:28%;transform:translate(-50%,-50%);width:40%;flex-direction:column;align-items:center;">
-                        <span class="icono-gen fa-solid fa-person" style="color:rgb(55,95,122);text-shadow:none;"></span>
-                        <span class="porcentaje" id="ph${i}" style="color:rgb(55,95,122);font-size:2.5em;text-shadow:none;">0%</span>
-                    </div>
-                    <!-- Mujer: centro-derecha -->
-                    <div class="icono-porc-circular" style="top:50%;left:72%;transform:translate(-50%,-50%);width:40%;flex-direction:column;align-items:center;">
-                        <span class="icono-gen fa-solid fa-person-dress" style="color:rgb(38,186,165);text-shadow:none;"></span>
-                        <span class="porcentaje" id="pm${i}" style="color:rgb(38,186,165);font-size:2.5em;text-shadow:none;">0%</span>
+            // Alternar entre "Aplazados" y "Reprobados" en el centro del gráfico
+            const centroPalabra = i % 2 === 0 ? 'Aplazados' : 'Reprobados';
+            card.innerHTML += `
+                <div class="card-body" style="width:100%;display:flex;justify-content:center;align-items:center;">
+                    <div class="grafica-circular-wrap">
+                        <canvas id="circular${i}" style="width:95vw;max-width:700px;height:95vw;max-height:700px;" width="700" height="700"></canvas>
+                        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;pointer-events:none;">
+                            <span style="font-size:2.1em;font-weight:bold;color:#e67e22;text-shadow:0 1px 6px #fff8;letter-spacing:1px;">${centroPalabra}</span>
+                        </div>
+                        <!-- Hombre: centro-izquierda -->
+                        <div class="icono-porc-circular" style="top:50%;left:28%;transform:translate(-50%,-50%);width:40%;flex-direction:column;align-items:center;">
+                            <span class="icono-gen fa-solid fa-person" style="color:rgb(55,95,122);text-shadow:none;"></span>
+                            <span class="porcentaje" id="ph${i}" style="color:rgb(55,95,122);font-size:2.5em;text-shadow:none;">0%</span>
+                        </div>
+                        <!-- Mujer: centro-derecha -->
+                        <div class="icono-porc-circular" style="top:50%;left:72%;transform:translate(-50%,-50%);width:40%;flex-direction:column;align-items:center;">
+                            <span class="icono-gen fa-solid fa-person-dress" style="color:rgb(38,186,165);text-shadow:none;"></span>
+                            <span class="porcentaje" id="pm${i}" style="color:rgb(38,186,165);font-size:2.5em;text-shadow:none;">0%</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
     graficasCircularesDiv.appendChild(card);
 
     // Gráfico
